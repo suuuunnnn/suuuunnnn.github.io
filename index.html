@@ -13,8 +13,8 @@
 
         body {
             overflow: hidden;
-            font-family: 'Arial', sans-serif;
-            background: #e8e8e8;
+            font-family: 'Arial Black', 'Arial Bold', sans-serif;
+            background: #f5f5f5;
         }
 
         .scene-container {
@@ -22,190 +22,312 @@
             height: 100vh;
             position: relative;
             overflow: hidden;
+            transition: transform 2s ease;
         }
 
-        .scene {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            transition: transform 1s ease;
-        }
-
+        /* Background styles */
         .background {
             width: 100%;
             height: 100%;
-            background: linear-gradient(to bottom, #f0f0f0 0%, #e8e8e8 70%, #d0d0d0 100%);
+            background: #f5f5f5;
             position: relative;
             transition: background 2s ease;
         }
 
-        .background.colorful {
-            background: linear-gradient(to bottom, #87CEEB 0%, #B0E0E6 50%, #90EE90 100%);
+        .background.warm {
+            background: linear-gradient(to bottom, #fef8e8 0%, #fef5dc 100%);
         }
 
+        /* Ground hill */
         .ground {
             position: absolute;
             bottom: 0;
             left: 0;
             right: 0;
-            height: 15%;
-            background: #2a2a2a;
-            border-radius: 50% 50% 0 0 / 20% 20% 0 0;
-            transition: background 2s ease;
+            height: 20%;
+            background: #000;
+            clip-path: ellipse(150% 100% at 50% 100%);
+            transition: all 2s ease;
         }
 
-        .ground.colorful {
-            background: linear-gradient(to bottom, #8B7355 0%, #A0826D 50%, #6B8E23 100%);
+        /* Trees */
+        .trees-container {
+            position: absolute;
+            bottom: 20%;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 200px;
         }
 
         .tree {
-            position: absolute;
-            bottom: 15%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 120px;
-            z-index: 2;
+            position: relative;
+            width: 150px;
         }
 
         .trunk {
-            width: 20px;
-            height: 200px;
-            background: #1a1a1a;
+            width: 25px;
+            height: 250px;
+            background: #000;
             margin: 0 auto;
             position: relative;
         }
 
-        .leaves {
+        .foliage {
             position: absolute;
-            top: -150px;
+            width: 200px;
+            height: 300px;
+            top: -280px;
             left: 50%;
             transform: translateX(-50%);
-            width: 250px;
-            height: 250px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 300"><path d="M100,10 Q80,50 90,80 Q60,90 70,120 Q40,130 50,160 Q30,170 45,200 Q20,210 40,240 L60,280 L100,290 L140,280 L160,240 Q180,210 155,200 Q170,170 150,160 Q180,130 130,120 Q140,90 110,80 Q120,50 100,10 Z" fill="black" stroke="black" stroke-width="2"/></svg>') center/contain no-repeat;
+            animation: sway 4s ease-in-out infinite;
         }
-
-        .leaf-cluster {
-            position: absolute;
-            width: 80px;
-            height: 80px;
-            background: radial-gradient(circle, #1a1a1a 0%, #0a0a0a 100%);
-            border-radius: 50%;
-            animation: sway 3s ease-in-out infinite;
-        }
-
-        .leaf-cluster:nth-child(1) { top: 0; left: 50%; transform: translateX(-50%); animation-delay: 0s; }
-        .leaf-cluster:nth-child(2) { top: 40px; left: 20px; animation-delay: 0.3s; }
-        .leaf-cluster:nth-child(3) { top: 40px; right: 20px; animation-delay: 0.6s; }
-        .leaf-cluster:nth-child(4) { top: 80px; left: 35px; animation-delay: 0.9s; }
-        .leaf-cluster:nth-child(5) { top: 80px; right: 35px; animation-delay: 1.2s; }
-        .leaf-cluster:nth-child(6) { bottom: 20px; left: 50%; transform: translateX(-50%); animation-delay: 1.5s; }
 
         @keyframes sway {
-            0%, 100% { transform: translateX(0) rotate(0deg); }
-            50% { transform: translateX(5px) rotate(2deg); }
+            0%, 100% { transform: translateX(-50%) rotate(0deg); }
+            50% { transform: translateX(-50%) rotate(3deg); }
         }
 
-        .button {
-            padding: 15px 40px;
-            font-size: 18px;
-            font-weight: bold;
+        /* Buttons */
+        .btn {
+            padding: 15px 35px;
+            font-size: 20px;
+            font-weight: 900;
             border: none;
-            border-radius: 50px;
+            border-radius: 10px;
             cursor: pointer;
             position: absolute;
             z-index: 1000;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            transition: transform 0.2s, opacity 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s;
             opacity: 0;
             pointer-events: none;
+            font-family: 'Arial Black', sans-serif;
         }
 
-        .button.show {
+        .btn.show {
             opacity: 1;
             pointer-events: all;
         }
 
-        .button:hover {
+        .btn:hover {
             transform: scale(1.05);
         }
 
         #yowBtn {
-            top: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #4a4a4a;
-            color: white;
+            top: 40px;
+            left: 40px;
+            background: #fff;
+            color: #000;
         }
 
         #whatsBtn {
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: #6a6a6a;
-            color: white;
+            bottom: 40px;
+            right: 40px;
+            background: #000;
+            color: #fff;
         }
 
         #calyBtn {
-            top: 30px;
+            top: 40px;
             left: 50%;
             transform: translateX(-50%);
-            background: linear-gradient(135deg, #FFD700, #FFA500);
-            color: #333;
+            background: #000;
+            color: #fff;
             font-size: 16px;
-            padding: 12px 30px;
         }
 
         #lookBtn {
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: linear-gradient(135deg, #FFD700, #FFA500);
-            color: #333;
-        }
-
-        .asteroid {
-            position: absolute;
-            width: 15px;
-            height: 15px;
-            background: radial-gradient(circle, #FFD700, #FFA500);
-            border-radius: 50%;
-            top: -50px;
-            left: 50%;
-            opacity: 0;
-            box-shadow: 0 0 10px #FFD700;
-        }
-
-        .seed {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background: radial-gradient(circle, #FFD700, #DAA520);
-            border-radius: 50%;
-            bottom: calc(15% + 10px);
-            left: 50%;
-            transform: translateX(-50%) scale(0);
-            z-index: 3;
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
-        }
-
-        .chat-bubble {
-            position: absolute;
-            background: white;
-            padding: 15px 20px;
-            border-radius: 20px;
-            font-size: 16px;
-            color: #333;
             bottom: 40px;
             left: 50%;
             transform: translateX(-50%);
+            background: #000;
+            color: #fff;
+        }
+
+        /* Asteroid */
+        .asteroid {
+            position: absolute;
+            width: 40px;
+            height: 60px;
+            top: -100px;
+            right: 15%;
+            opacity: 0;
+            z-index: 10;
+            background: linear-gradient(135deg, #ff8c42 0%, #ffa566 50%, #ffb88c 100%);
+            clip-path: polygon(50% 0%, 80% 30%, 100% 60%, 70% 100%, 30% 100%, 0% 60%, 20% 30%);
+            filter: blur(1px);
+        }
+
+        .asteroid::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent 0%, rgba(255, 140, 66, 0.5) 100%);
+            filter: blur(3px);
+        }
+
+        /* Crater zoom view */
+        .crater-view {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: 600px;
+            height: 600px;
+            opacity: 0;
+            z-index: 100;
+            transition: all 1.5s ease;
+        }
+
+        .crater-view.show {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+
+        .crater {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .crater-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, 
+                #8a8a8a 0%, 
+                #6a6a6a 30%, 
+                #4a4a4a 50%, 
+                #3a3a3a 70%, 
+                #2a2a2a 100%);
+            border-radius: 50%;
+            box-shadow: inset 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .crater-inner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70%;
+            height: 70%;
+            background: radial-gradient(ellipse at 40% 40%, 
+                #b0b0b0 0%, 
+                #8a8a8a 30%, 
+                #6a6a6a 60%);
+            border-radius: 50%;
+        }
+
+        .fire {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 300px;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .fire.show {
+            opacity: 1;
+        }
+
+        .flame {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, 
+                rgba(255, 255, 150, 0.9) 0%,
+                rgba(255, 200, 100, 0.8) 20%,
+                rgba(255, 140, 80, 0.6) 40%,
+                rgba(255, 80, 60, 0.4) 60%,
+                rgba(60, 60, 60, 0.3) 80%,
+                transparent 100%);
+            border-radius: 50%;
+            animation: flicker 1.5s ease-in-out infinite;
+        }
+
+        @keyframes flicker {
+            0%, 100% { transform: scale(1); opacity: 0.9; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+
+        /* Seed in crater */
+        .seed {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 80px;
+            background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            z-index: 5;
+            opacity: 0;
+        }
+
+        .seed-highlight {
+            position: absolute;
+            top: 20%;
+            left: 30%;
+            width: 30%;
+            height: 35%;
+            background: linear-gradient(135deg, #DAA520, transparent);
+            border-radius: 50%;
+        }
+
+        /* Water puddle */
+        .water-puddle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 250px;
+            height: 180px;
+            background: radial-gradient(ellipse at center, 
+                #6BA3D0 0%, 
+                #5B93C0 50%, 
+                #4B83B0 100%);
+            border-radius: 50%;
+            opacity: 0;
+            z-index: 4;
+        }
+
+        .water-highlight {
+            position: absolute;
+            top: 30%;
+            left: 35%;
+            width: 35%;
+            height: 25%;
+            background: radial-gradient(ellipse at center, 
+                rgba(255, 255, 255, 0.4), 
+                transparent);
+            border-radius: 50%;
+        }
+
+        /* Chat bubble */
+        .chat-bubble {
+            position: absolute;
+            background: #fff;
+            padding: 20px 30px;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #000;
+            top: 15%;
+            left: 50%;
+            transform: translateX(-50%);
             white-space: nowrap;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
             cursor: pointer;
             opacity: 0;
             pointer-events: none;
-            z-index: 10;
+            z-index: 200;
             transition: opacity 0.3s;
         }
 
@@ -214,497 +336,689 @@
             pointer-events: all;
         }
 
-        .chat-bubble:after {
+        .chat-bubble::after {
             content: '';
             position: absolute;
-            bottom: -10px;
+            bottom: -20px;
             left: 50%;
             transform: translateX(-50%);
             width: 0;
             height: 0;
-            border-left: 10px solid transparent;
-            border-right: 10px solid transparent;
-            border-top: 10px solid white;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 20px solid #fff;
         }
 
+        /* Watering can */
         .watering-can {
             position: absolute;
-            top: -100px;
-            left: 50%;
-            transform: translateX(-50%);
+            top: -150px;
+            right: 10%;
             opacity: 0;
-            z-index: 5;
+            z-index: 150;
+            transition: all 1s ease;
         }
 
-        .can-body {
-            width: 60px;
-            height: 40px;
-            background: #8B4513;
-            border-radius: 5px;
+        .can {
+            width: 100px;
+            height: 80px;
+            background: #000;
+            border-radius: 10px;
             position: relative;
+            transform: rotate(-15deg);
+        }
+
+        .can-handle {
+            position: absolute;
+            width: 50px;
+            height: 60px;
+            border: 8px solid #000;
+            border-radius: 50%;
+            left: -25px;
+            top: 10px;
+            border-right: none;
         }
 
         .can-spout {
-            width: 30px;
-            height: 3px;
-            background: #8B4513;
             position: absolute;
-            right: -25px;
-            top: 10px;
+            width: 60px;
+            height: 12px;
+            background: #000;
+            right: -55px;
+            top: 35px;
+            border-radius: 0 20px 20px 0;
         }
 
-        .water-drop {
+        .water-drops {
             position: absolute;
-            width: 3px;
-            height: 15px;
+            right: -60px;
+            top: 70px;
+        }
+
+        .drop {
+            position: absolute;
+            width: 6px;
+            height: 12px;
             background: #4DB8FF;
-            border-radius: 50%;
-            opacity: 0;
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(45deg);
         }
 
-        .sunlight {
+        /* Sprout */
+        .sprout {
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+            z-index: 6;
+            transition: all 1s ease;
+        }
+
+        .sprout.show {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+
+        .sprout-stem {
+            width: 8px;
+            height: 50px;
+            background: linear-gradient(to right, #2d5016, #4a7c2f);
+            margin: 0 auto;
+            border-radius: 10px;
+        }
+
+        .sprout-leaves {
+            position: relative;
+            top: -30px;
+        }
+
+        .sprout-leaf {
+            position: absolute;
+            width: 35px;
+            height: 25px;
+            background: linear-gradient(135deg, #3d8b1f, #52a830);
+            border-radius: 0 50% 50% 0;
+        }
+
+        .sprout-leaf:nth-child(1) {
+            left: -30px;
+            top: 0;
+            transform: rotate(-40deg);
+        }
+
+        .sprout-leaf:nth-child(2) {
+            right: -30px;
+            top: 0;
+            transform: rotate(40deg) scaleX(-1);
+        }
+
+        /* Sun */
+        .sun {
             position: absolute;
             width: 200px;
             height: 200px;
-            background: radial-gradient(circle, rgba(255, 255, 100, 0.6), transparent);
-            border-radius: 50%;
-            top: -100px;
-            left: 50%;
-            transform: translateX(-50%);
+            top: -250px;
+            right: 15%;
             opacity: 0;
-            z-index: 1;
+            z-index: 120;
+            transition: all 2s ease;
         }
 
-        .sunflower {
+        .sun.show {
+            top: 8%;
+            opacity: 1;
+        }
+
+        .sun-core {
             position: absolute;
-            bottom: calc(15% + 10px);
-            left: 50%;
-            transform: translateX(-50%) scale(0);
-            z-index: 4;
-            opacity: 0;
-        }
-
-        .sunflower-center {
-            width: 60px;
-            height: 60px;
-            background: radial-gradient(circle, #8B4513 40%, #654321 100%);
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, #FFD700 0%, #FFA500 70%, #FF8C00 100%);
             border-radius: 50%;
-            position: relative;
-            z-index: 2;
-        }
-
-        .sunflower-petals {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 140px;
-            height: 140px;
-        }
-
-        .petal {
-            position: absolute;
-            width: 35px;
-            height: 55px;
-            background: linear-gradient(to bottom, #FFD700, #FFA500);
-            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-            top: 50%;
-            left: 50%;
-            transform-origin: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-
-        .sunflower-stem {
-            width: 10px;
-            height: 100px;
-            background: linear-gradient(to right, #2d5016, #3d6b1f);
-            position: absolute;
-            bottom: -100px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .sunflower-leaf {
-            position: absolute;
-            width: 30px;
-            height: 20px;
-            background: linear-gradient(135deg, #228B22, #32CD32);
-            border-radius: 0 50% 50% 0;
-            bottom: 30px;
-        }
-
-        .sunflower-leaf:nth-child(1) {
-            left: -25px;
-            transform: rotate(-30deg);
-        }
-
-        .sunflower-leaf:nth-child(2) {
-            right: -25px;
-            transform: rotate(30deg) scaleX(-1);
-        }
-
-        .sun {
-            position: absolute;
-            width: 100px;
-            height: 100px;
-            background: radial-gradient(circle, #FFD700, #FFA500);
-            border-radius: 50%;
-            top: 50px;
-            right: 100px;
-            opacity: 0;
-            box-shadow: 0 0 50px rgba(255, 215, 0, 0.8);
+            box-shadow: 0 0 60px rgba(255, 215, 0, 0.8);
         }
 
         .sun-ray {
             position: absolute;
-            width: 4px;
-            height: 40px;
-            background: linear-gradient(to bottom, #FFD700, transparent);
             top: 50%;
             left: 50%;
+            width: 30px;
+            height: 80px;
             transform-origin: center;
         }
 
-        .field-sunflower {
-            position: absolute;
-            transform: scale(0);
-            opacity: 0;
-        }
-
-        @keyframes grow-sunflower {
-            0% {
-                transform: translateX(-50%) scale(0) rotate(0deg);
-                opacity: 0;
-            }
-            50% {
-                transform: translateX(-50%) scale(1.2) rotate(5deg);
-                opacity: 1;
-            }
-            100% {
-                transform: translateX(-50%) scale(1) rotate(0deg);
-                opacity: 1;
-            }
-        }
-
-        @keyframes glow-pulse {
-            0%, 100% {
-                box-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 40px rgba(255, 215, 0, 0.6);
-            }
-            50% {
-                box-shadow: 0 0 40px rgba(255, 215, 0, 1), 0 0 80px rgba(255, 215, 0, 0.8);
-            }
-        }
-
-        .zoom-view {
+        .sun-ray::before {
+            content: '';
             position: absolute;
             width: 100%;
             height: 100%;
-            background: #e8e8e8;
-            top: 0;
-            left: 0;
+            background: linear-gradient(to bottom, #FFA500, transparent);
+            clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+        }
+
+        /* Crater sunflower */
+        .crater-sunflower {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+            z-index: 150;
+        }
+
+        .crater-sunflower.show {
+            animation: bloom 2s ease forwards;
+        }
+
+        @keyframes bloom {
+            0% {
+                transform: translate(-50%, -50%) scale(0) rotate(0deg);
+                opacity: 0;
+            }
+            60% {
+                transform: translate(-50%, -50%) scale(1.2) rotate(180deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1) rotate(360deg);
+                opacity: 1;
+            }
+        }
+
+        .sf-center {
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle at 35% 35%, #654321 0%, #3d2817 100%);
+            border-radius: 50%;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .sf-center::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="25" cy="25" r="3" fill="%23543210"/><circle cx="45" cy="30" r="3" fill="%23543210"/><circle cx="65" cy="25" r="3" fill="%23543210"/><circle cx="30" cy="45" r="3" fill="%23543210"/><circle cx="50" cy="50" r="3" fill="%23543210"/><circle cx="70" cy="45" r="3" fill="%23543210"/><circle cx="25" cy="65" r="3" fill="%23543210"/><circle cx="45" cy="70" r="3" fill="%23543210"/><circle cx="65" cy="65" r="3" fill="%23543210"/></svg>') center/cover no-repeat;
+            border-radius: 50%;
+        }
+
+        .sf-petals {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 250px;
+            height: 250px;
+        }
+
+        .sf-petal {
+            position: absolute;
+            width: 50px;
+            height: 80px;
+            background: linear-gradient(to bottom, #FFD700 0%, #FDB750 50%, #FFA500 100%);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            top: 50%;
+            left: 50%;
+            transform-origin: center center;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+        }
+
+        /* Main scene sunflower */
+        .main-sunflower {
+            position: absolute;
+            bottom: 20%;
+            left: 50%;
+            transform: translateX(-50%) scale(0);
+            opacity: 0;
+            z-index: 15;
+            transition: all 1s ease;
+        }
+
+        .main-sunflower.show {
+            transform: translateX(-50%) scale(1);
+            opacity: 1;
+        }
+
+        /* Field sunflowers */
+        .field-flower {
+            position: absolute;
+            bottom: 20%;
             transform: scale(0);
             opacity: 0;
-            z-index: 100;
+            z-index: 5;
+        }
+
+        .field-flower.show {
+            animation: grow-field-flower 1.5s ease forwards;
+        }
+
+        @keyframes grow-field-flower {
+            0% {
+                transform: scale(0) rotate(0deg);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        /* Text overlays */
+        .text-overlay {
+            position: absolute;
+            font-size: 18px;
+            font-weight: 900;
+            color: #000;
+            opacity: 0;
+            z-index: 250;
+            transition: opacity 0.5s;
+            font-family: 'Arial Black', sans-serif;
+        }
+
+        .text-overlay.show {
+            opacity: 1;
+        }
+
+        #text1 {
+            top: 15%;
+            left: 15%;
+        }
+
+        #text2 {
+            bottom: 15%;
+            right: 15%;
+        }
+
+        #text3 {
+            top: 50%;
+            right: 10%;
+            transform: translateY(-50%);
         }
     </style>
 </head>
 <body>
-    <div class="scene-container">
-        <div class="scene" id="mainScene">
-            <div class="background" id="background">
-                <div class="sun" id="sun">
-                    <div class="sun-ray" style="transform: translate(-50%, -50%) rotate(0deg);"></div>
-                    <div class="sun-ray" style="transform: translate(-50%, -50%) rotate(45deg);"></div>
-                    <div class="sun-ray" style="transform: translate(-50%, -50%) rotate(90deg);"></div>
-                    <div class="sun-ray" style="transform: translate(-50%, -50%) rotate(135deg);"></div>
-                    <div class="sun-ray" style="transform: translate(-50%, -50%) rotate(180deg);"></div>
-                    <div class="sun-ray" style="transform: translate(-50%, -50%) rotate(225deg);"></div>
-                    <div class="sun-ray" style="transform: translate(-50%, -50%) rotate(270deg);"></div>
-                    <div class="sun-ray" style="transform: translate(-50%, -50%) rotate(315deg);"></div>
-                </div>
-                
-                <div class="sunlight" id="sunlight"></div>
-                
-                <div class="ground" id="ground"></div>
-                
+    <div class="scene-container" id="sceneContainer">
+        <div class="background" id="background">
+            <!-- Sun -->
+            <div class="sun" id="sun">
+                <div class="sun-core"></div>
+                <div class="sun-ray" style="transform: translate(-50%, -50%) rotate(0deg);"></div>
+                <div class="sun-ray" style="transform: translate(-50%, -50%) rotate(45deg);"></div>
+                <div class="sun-ray" style="transform: translate(-50%, -50%) rotate(90deg);"></div>
+                <div class="sun-ray" style="transform: translate(-50%, -50%) rotate(135deg);"></div>
+                <div class="sun-ray" style="transform: translate(-50%, -50%) rotate(180deg);"></div>
+                <div class="sun-ray" style="transform: translate(-50%, -50%) rotate(225deg);"></div>
+                <div class="sun-ray" style="transform: translate(-50%, -50%) rotate(270deg);"></div>
+                <div class="sun-ray" style="transform: translate(-50%, -50%) rotate(315deg);"></div>
+            </div>
+
+            <!-- Ground -->
+            <div class="ground" id="ground"></div>
+
+            <!-- Trees -->
+            <div class="trees-container">
                 <div class="tree">
-                    <div class="leaves">
-                        <div class="leaf-cluster"></div>
-                        <div class="leaf-cluster"></div>
-                        <div class="leaf-cluster"></div>
-                        <div class="leaf-cluster"></div>
-                        <div class="leaf-cluster"></div>
-                        <div class="leaf-cluster"></div>
-                    </div>
+                    <div class="foliage"></div>
                     <div class="trunk"></div>
                 </div>
+                <div class="tree">
+                    <div class="foliage"></div>
+                    <div class="trunk"></div>
+                </div>
+            </div>
 
-                <div class="asteroid" id="asteroid"></div>
+            <!-- Asteroid -->
+            <div class="asteroid" id="asteroid"></div>
+
+            <!-- Main sunflower -->
+            <div class="main-sunflower" id="mainSunflower">
+                <div class="sf-petals" id="mainPetals"></div>
+                <div class="sf-center"></div>
+            </div>
+
+            <!-- Field sunflowers container -->
+            <div id="fieldFlowers"></div>
+
+            <!-- Crater view -->
+            <div class="crater-view" id="craterView">
+                <div class="crater">
+                    <div class="crater-bg"></div>
+                    <div class="crater-inner"></div>
+                    
+                    <!-- Fire -->
+                    <div class="fire" id="fire">
+                        <div class="flame"></div>
+                    </div>
+                    
+                    <!-- Water puddle -->
+                    <div class="water-puddle" id="waterPuddle">
+                        <div class="water-highlight"></div>
+                    </div>
+                    
+                    <!-- Seed -->
+                    <div class="seed" id="seed">
+                        <div class="seed-highlight"></div>
+                    </div>
+                    
+                    <!-- Sprout -->
+                    <div class="sprout" id="sprout">
+                        <div class="sprout-leaves">
+                            <div class="sprout-leaf"></div>
+                            <div class="sprout-leaf"></div>
+                        </div>
+                        <div class="sprout-stem"></div>
+                    </div>
+                    
+                    <!-- Crater sunflower -->
+                    <div class="crater-sunflower" id="craterSunflower">
+                        <div class="sf-petals" id="craterPetals"></div>
+                        <div class="sf-center"></div>
+                    </div>
+                </div>
                 
-                <div class="seed" id="seed"></div>
-                
+                <!-- Chat bubble -->
                 <div class="chat-bubble" id="chatBubble"></div>
                 
+                <!-- Watering can -->
                 <div class="watering-can" id="wateringCan">
-                    <div class="can-body">
+                    <div class="can">
+                        <div class="can-handle"></div>
                         <div class="can-spout"></div>
+                        <div class="water-drops" id="waterDrops"></div>
                     </div>
                 </div>
-
-                <div class="sunflower" id="sunflower">
-                    <div class="sunflower-stem">
-                        <div class="sunflower-leaf"></div>
-                        <div class="sunflower-leaf"></div>
-                    </div>
-                    <div class="sunflower-petals" id="petals"></div>
-                    <div class="sunflower-center"></div>
-                </div>
-
-                <div id="fieldSunflowers"></div>
             </div>
-        </div>
 
-        <button class="button show" id="yowBtn">yow</button>
-        <button class="button" id="whatsBtn">what's that?</button>
-        <button class="button" id="calyBtn">CALYfragilisticexpialidocious</button>
-        <button class="button" id="lookBtn">look at the sunflower again</button>
+            <!-- Text overlays -->
+            <div class="text-overlay" id="text1"></div>
+            <div class="text-overlay" id="text2"></div>
+            <div class="text-overlay" id="text3">...</div>
+        </div>
     </div>
 
+    <!-- Buttons -->
+    <button class="btn show" id="yowBtn">Yoww</button>
+    <button class="btn" id="whatsBtn">What's that?</button>
+    <button class="btn" id="calyBtn">SuperCALYfragilisticexpialidocious<br>hahaha</button>
+    <button class="btn" id="lookBtn">...</button>
+
     <script>
-        let step = 0;
+        // Create petals for crater sunflower
+        const craterPetals = document.getElementById('craterPetals');
+        for (let i = 0; i < 13; i++) {
+            const petal = document.createElement('div');
+            petal.className = 'sf-petal';
+            const angle = (i * (360 / 13)) - 90;
+            petal.style.transform = `translate(-50%, -50%) rotate(${angle}deg) translateY(-85px)`;
+            craterPetals.appendChild(petal);
+        }
+
+        // Create petals for main sunflower
+        const mainPetals = document.getElementById('mainPetals');
+        for (let i = 0; i < 13; i++) {
+            const petal = document.createElement('div');
+            petal.className = 'sf-petal';
+            const angle = (i * (360 / 13)) - 90;
+            petal.style.transform = `translate(-50%, -50%) rotate(${angle}deg) translateY(-85px)`;
+            mainPetals.appendChild(petal);
+        }
+
         const yowBtn = document.getElementById('yowBtn');
         const whatsBtn = document.getElementById('whatsBtn');
         const calyBtn = document.getElementById('calyBtn');
         const lookBtn = document.getElementById('lookBtn');
         const asteroid = document.getElementById('asteroid');
-        const seed = document.getElementById('seed');
+        const craterView = document.getElementById('craterView');
         const chatBubble = document.getElementById('chatBubble');
+        const fire = document.getElementById('fire');
+        const seed = document.getElementById('seed');
         const wateringCan = document.getElementById('wateringCan');
-        const sunlight = document.getElementById('sunlight');
-        const sunflower = document.getElementById('sunflower');
-        const background = document.getElementById('background');
-        const ground = document.getElementById('ground');
+        const waterDrops = document.getElementById('waterDrops');
+        const waterPuddle = document.getElementById('waterPuddle');
+        const sprout = document.getElementById('sprout');
         const sun = document.getElementById('sun');
-        const mainScene = document.getElementById('mainScene');
-        const petalsContainer = document.getElementById('petals');
-        const fieldSunflowers = document.getElementById('fieldSunflowers');
+        const craterSunflower = document.getElementById('craterSunflower');
+        const background = document.getElementById('background');
+        const mainSunflower = document.getElementById('mainSunflower');
+        const text1 = document.getElementById('text1');
+        const text2 = document.getElementById('text2');
+        const text3 = document.getElementById('text3');
 
-        // Create petals
-        for (let i = 0; i < 12; i++) {
-            const petal = document.createElement('div');
-            petal.className = 'petal';
-            const angle = (i * 30) - 90;
-            petal.style.transform = `translate(-50%, -50%) rotate(${angle}deg) translateY(-45px)`;
-            petalsContainer.appendChild(petal);
-        }
+        let chatStep = 0;
 
-        // Step 1: Click "yow" - asteroid falls
+        // Step 1: Click "Yoww" - asteroid falls
         yowBtn.addEventListener('click', () => {
             yowBtn.classList.remove('show');
             
-            // Animate asteroid falling
             asteroid.style.opacity = '1';
-            asteroid.style.transition = 'top 2s ease-in, left 2s ease-in';
-            asteroid.style.top = 'calc(85% - 20px)';
-            asteroid.style.left = '50%';
+            asteroid.style.transition = 'all 2.5s cubic-bezier(0.5, 0, 0.75, 0)';
+            asteroid.style.top = '45%';
+            asteroid.style.right = '42%';
             
             setTimeout(() => {
-                asteroid.style.opacity = '0';
-                seed.style.transform = 'translateX(-50%) scale(1)';
-                seed.style.transition = 'transform 0.5s ease';
-                
-                setTimeout(() => {
-                    whatsBtn.classList.add('show');
-                }, 500);
-            }, 2000);
+                whatsBtn.classList.add('show');
+            }, 2500);
         });
 
-        // Step 2: Click "what's that?" - zoom to seed
+        // Step 2: Click "What's that?" - zoom to crater
         whatsBtn.addEventListener('click', () => {
             whatsBtn.classList.remove('show');
+            asteroid.style.opacity = '0';
             
-            mainScene.style.transform = 'scale(3)';
-            mainScene.style.transformOrigin = '50% 85%';
-            mainScene.style.transition = 'transform 1.5s ease';
+            craterView.classList.add('show');
+            fire.classList.add('show');
             
             setTimeout(() => {
-                chatBubble.textContent = "i'm thirsty";
-                chatBubble.classList.add('show');
+                text1.textContent = "I need to put out the fire";
+                text1.classList.add('show');
+                
+                setTimeout(() => {
+                    fire.classList.remove('show');
+                    seed.style.opacity = '1';
+                    waterPuddle.style.opacity = '0.3';
+                    
+                    setTimeout(() => {
+                        chatBubble.textContent = "i'm thirsty";
+                        chatBubble.classList.add('show');
+                    }, 800);
+                }, 1500);
             }, 1500);
         });
 
-        // Step 3: Click chat bubble - watering can appears
-        let chatStep = 0;
+        // Step 3: Chat interactions
         chatBubble.addEventListener('click', () => {
             if (chatStep === 0) {
                 chatBubble.classList.remove('show');
+                text1.classList.remove('show');
                 
+                // Show watering can
                 wateringCan.style.opacity = '1';
-                wateringCan.style.transition = 'all 1s ease';
-                wateringCan.style.top = '20%';
+                wateringCan.style.top = '25%';
                 
                 // Create water drops
-                for (let i = 0; i < 15; i++) {
+                for (let i = 0; i < 20; i++) {
                     setTimeout(() => {
                         const drop = document.createElement('div');
-                        drop.className = 'water-drop';
-                        drop.style.left = '80px';
-                        drop.style.top = '15px';
-                        wateringCan.appendChild(drop);
+                        drop.className = 'drop';
+                        drop.style.left = (Math.random() * 20) + 'px';
+                        drop.style.top = '0px';
+                        waterDrops.appendChild(drop);
                         
                         setTimeout(() => {
-                            drop.style.opacity = '1';
-                            drop.style.transition = 'all 0.8s ease';
-                            drop.style.top = '150px';
-                            drop.style.left = (80 + Math.random() * 20 - 10) + 'px';
+                            drop.style.transition = 'all 1s ease';
+                            drop.style.top = '120px';
+                            drop.style.opacity = '0';
                         }, 50);
                         
-                        setTimeout(() => {
-                            drop.remove();
-                        }, 900);
+                        setTimeout(() => drop.remove(), 1100);
                     }, i * 100);
                 }
                 
+                waterPuddle.style.transition = 'opacity 2s ease';
+                waterPuddle.style.opacity = '0.9';
+                
                 setTimeout(() => {
-                    wateringCan.style.opacity = '0';
-                    chatBubble.textContent = "you've overdone it, I'm drowning!";
-                    chatBubble.classList.add('show');
-                    chatStep = 1;
+                    text2.textContent = "Oops my steak™, overdid it";
+                    text2.classList.add('show');
+                    
+                    setTimeout(() => {
+                        wateringCan.style.opacity = '0';
+                        chatBubble.textContent = "you've overdone it, I'm drowning!";
+                        chatBubble.classList.add('show');
+                        chatStep = 1;
+                    }, 1500);
                 }, 2000);
+                
             } else if (chatStep === 1) {
                 chatBubble.textContent = "I drank too much, i need food and to be dry";
+                text2.classList.remove('show');
                 chatStep = 2;
+                
             } else if (chatStep === 2) {
                 chatBubble.classList.remove('show');
                 
-                // Sunlight appears
-                sunlight.style.opacity = '1';
-                sunlight.style.transition = 'opacity 1s ease';
-                sunlight.style.top = '10%';
+                // Show sun and light
+                sun.classList.add('show');
+                background.classList.add('warm');
                 
                 setTimeout(() => {
-                    // Seed transforms to sunflower with beautiful animation
-                    seed.style.transition = 'all 2s ease';
-                    seed.style.transform = 'translateX(-50%) scale(0)';
+                    text3.textContent = "What?";
+                    text3.classList.add('show');
+                    
+                    // Seed becomes sprout
                     seed.style.opacity = '0';
+                    waterPuddle.style.opacity = '0';
+                    sprout.classList.add('show');
                     
                     setTimeout(() => {
-                        sunflower.style.opacity = '1';
-                        sunflower.style.animation = 'grow-sunflower 3s ease forwards';
+                        text3.classList.remove('show');
+                        sprout.classList.remove('show');
                         
-                        // Animate petals opening
-                        const petals = document.querySelectorAll('.petal');
-                        petals.forEach((petal, index) => {
+                        // Bloom into sunflower
+                        craterSunflower.classList.add('show');
+                        
+                        // Animate petals
+                        const petals = craterSunflower.querySelectorAll('.sf-petal');
+                        petals.forEach((petal, i) => {
                             setTimeout(() => {
-                                petal.style.transition = 'all 0.5s ease';
+                                petal.style.transition = 'opacity 0.3s ease';
                                 petal.style.opacity = '1';
-                            }, index * 80);
+                            }, i * 60);
                         });
-                        
-                        // Add glowing effect
-                        setTimeout(() => {
-                            sunflower.style.animation = 'grow-sunflower 3s ease forwards, glow-pulse 2s ease infinite';
-                        }, 3000);
                         
                         setTimeout(() => {
                             calyBtn.classList.add('show');
-                        }, 4000);
-                    }, 500);
-                }, 1000);
+                        }, 2500);
+                    }, 1500);
+                }, 1500);
             }
         });
 
-        // Step 4: Click "CALYfragilisticexpialidocious" - zoom out and show colorful world
+        // Step 4: Zoom out and show field
         calyBtn.addEventListener('click', () => {
             calyBtn.classList.remove('show');
             
-            // Zoom out
-            mainScene.style.transform = 'scale(1)';
-            mainScene.style.transition = 'transform 2s ease';
+            craterView.classList.remove('show');
             
             setTimeout(() => {
-                // Add color to background
-                background.classList.add('colorful');
-                ground.classList.add('colorful');
-                sun.style.opacity = '1';
-                sun.style.transition = 'opacity 1.5s ease';
+                mainSunflower.classList.add('show');
                 
-                // Create field of sunflowers spreading from center
+                // Show main sunflower petals
+                const mainPetalElements = mainSunflower.querySelectorAll('.sf-petal');
+                mainPetalElements.forEach((petal, i) => {
+                    setTimeout(() => {
+                        petal.style.transition = 'opacity 0.3s ease';
+                        petal.style.opacity = '1';
+                    }, i * 60);
+                });
+                
                 setTimeout(() => {
-                    createFieldSunflowers();
+                    createFieldFlowers();
+                    
+                    setTimeout(() => {
+                        lookBtn.textContent = "A flower basking in the sun hmmmm..";
+                        lookBtn.classList.add('show');
+                    }, 3000);
                 }, 1000);
-                
-                setTimeout(() => {
-                    lookBtn.classList.add('show');
-                }, 4000);
-            }, 2000);
+            }, 1500);
         });
 
-        function createFieldSunflowers() {
+        function createFieldFlowers() {
             const positions = [
-                { bottom: '20%', left: '30%', delay: 0, size: 0.6 },
-                { bottom: '18%', left: '70%', delay: 200, size: 0.7 },
-                { bottom: '25%', left: '20%', delay: 400, size: 0.5 },
-                { bottom: '22%', left: '80%', delay: 600, size: 0.6 },
-                { bottom: '30%', left: '15%', delay: 800, size: 0.55 },
-                { bottom: '28%', left: '85%', delay: 1000, size: 0.65 },
-                { bottom: '32%', left: '25%', delay: 1200, size: 0.5 },
-                { bottom: '30%', left: '75%', delay: 1400, size: 0.6 },
-                { bottom: '35%', left: '35%', delay: 1600, size: 0.55 },
-                { bottom: '33%', left: '65%', delay: 1800, size: 0.6 },
+                { left: '20%', size: 0.4, delay: 0 },
+                { left: '30%', size: 0.35, delay: 200 },
+                { left: '38%', size: 0.45, delay: 400 },
+                { left: '62%', size: 0.4, delay: 600 },
+                { left: '70%', size: 0.38, delay: 800 },
+                { left: '80%', size: 0.42, delay: 1000 },
+                { left: '15%', size: 0.3, delay: 1200 },
+                { left: '85%', size: 0.35, delay: 1400 },
+                { left: '25%', size: 0.33, delay: 1600 },
+                { left: '75%', size: 0.37, delay: 1800 },
             ];
+            
+            const fieldFlowers = document.getElementById('fieldFlowers');
             
             positions.forEach(pos => {
                 setTimeout(() => {
-                    const sf = createMiniSunflower(pos.size);
-                    sf.style.bottom = pos.bottom;
-                    sf.style.left = pos.left;
-                    fieldSunflowers.appendChild(sf);
+                    const flower = createSmallSunflower(pos.size);
+                    flower.style.left = pos.left;
+                    fieldFlowers.appendChild(flower);
                     
                     setTimeout(() => {
-                        sf.style.transform = `scale(${pos.size})`;
-                        sf.style.opacity = '1';
+                        flower.classList.add('show');
                     }, 50);
                 }, pos.delay);
             });
         }
 
-        function createMiniSunflower(size) {
-            const sf = document.createElement('div');
-            sf.className = 'field-sunflower';
-            sf.style.position = 'absolute';
-            sf.style.transform = 'scale(0)';
-            sf.style.transition = 'all 0.8s ease';
-            sf.style.zIndex = '3';
+        function createSmallSunflower(size) {
+            const flower = document.createElement('div');
+            flower.className = 'field-flower';
             
-            sf.innerHTML = `
+            const scale = size;
+            const centerSize = 40 * scale;
+            const petalW = 20 * scale;
+            const petalH = 30 * scale;
+            const distance = 35 * scale;
+            
+            flower.innerHTML = `
                 <div style="position: relative;">
-                    <div style="width: ${40 * size}px; height: ${40 * size}px; background: radial-gradient(circle, #8B4513 40%, #654321 100%); border-radius: 50%; position: relative; z-index: 2;"></div>
-                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: ${100 * size}px; height: ${100 * size}px;">
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: ${centerSize * 2}px; height: ${centerSize * 2}px;">
                         ${Array(10).fill(0).map((_, i) => {
                             const angle = (i * 36) - 90;
-                            return `<div style="position: absolute; width: ${25 * size}px; height: ${40 * size}px; background: linear-gradient(to bottom, #FFD700, #FFA500); border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; top: 50%; left: 50%; transform-origin: center; transform: translate(-50%, -50%) rotate(${angle}deg) translateY(-${30 * size}px);"></div>`;
+                            return `<div style="position: absolute; width: ${petalW}px; height: ${petalH}px; background: linear-gradient(to bottom, #FFD700, #FFA500); border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(${angle}deg) translateY(-${distance}px); box-shadow: 0 2px 5px rgba(0,0,0,0.2);"></div>`;
                         }).join('')}
                     </div>
-                    <div style="width: ${8 * size}px; height: ${60 * size}px; background: linear-gradient(to right, #2d5016, #3d6b1f); position: absolute; bottom: -${60 * size}px; left: 50%; transform: translateX(-50%);"></div>
+                    <div style="width: ${centerSize}px; height: ${centerSize}px; background: radial-gradient(circle, #654321, #3d2817); border-radius: 50%; position: relative; z-index: 2; box-shadow: 0 3px 8px rgba(0,0,0,0.3);"></div>
                 </div>
             `;
             
-            return sf;
+            return flower;
         }
 
-        // Step 5: Click "look at the sunflower again" - zoom back to original sunflower
+        // Step 5: Look at sunflower again (zoom)
         lookBtn.addEventListener('click', () => {
-            lookBtn.classList.remove('show');
-            
-            mainScene.style.transform = 'scale(2.5)';
-            mainScene.style.transformOrigin = '50% 75%';
-            mainScene.style.transition = 'transform 2s ease';
-            
-            setTimeout(() => {
-                lookBtn.classList.add('show');
-            }, 3000);
+            if (lookBtn.textContent.includes('basking')) {
+                lookBtn.classList.remove('show');
+                craterView.classList.add('show');
+                
+                setTimeout(() => {
+                    lookBtn.textContent = '...';
+                    lookBtn.classList.add('show');
+                }, 2000);
+            } else {
+                craterView.classList.remove('show');
+                setTimeout(() => {
+                    lookBtn.textContent = "A flower basking in the sun hmmmm..";
+                }, 1500);
+            }
         });
     </script>
 </body>
 </html>
+
