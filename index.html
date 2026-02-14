@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Sunflower Story</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+            background: #e8e8e8;
+        }
+
+        .scene-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scene {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: transform 1s ease;
+        }
+
+        .background {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, #f0f0f0 0%, #e8e8e8 70%, #d0d0d0 100%);
+            position: relative;
+            transition: background 2s ease;
+        }
+
+        .background.colorful {
+            background: linear-gradient(to bottom, #87CEEB 0%, #B0E0E6 50%, #90EE90 100%);
+        }
+
+        .ground {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 15%;
+            background: #2a2a2a;
+            border-radius: 50% 50% 0 0 / 20% 20% 0 0;
+            transition: background 2s ease;
+        }
+
+        .ground.colorful {
+            background: linear-gradient(to bottom, #8B7355 0%, #A0826D 50%, #6B8E23 100%);
+        }
+
+        .tree {
+            position: absolute;
+            bottom: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            z-index: 2;
+        }
+
+        .trunk {
+            width: 20px;
+            height: 200px;
+            background: #1a1a1a;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .leaves {
+            position: absolute;
+            top: -150px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 250px;
+            height: 250px;
+        }
+
+        .leaf-cluster {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, #1a1a1a 0%, #0a0a0a 100%);
+            border-radius: 50%;
+            animation: sway 3s ease-in-out infinite;
+        }
+
+        .leaf-cluster:nth-child(1) { top: 0; left: 50%; transform: translateX(-50%); animation-delay: 0s; }
+        .leaf-cluster:nth-child(2) { top: 40px; left: 20px; animation-delay: 0.3s; }
+        .leaf-cluster:nth-child(3) { top: 40px; right: 20px; animation-delay: 0.6s; }
+        .leaf-cluster:nth-child(4) { top: 80px; left: 35px; animation-delay: 0.9s; }
+        .leaf-cluster:nth-child(5) { top: 80px; right: 35px; animation-delay: 1.2s; }
+        .leaf-cluster:nth-child(6) { bottom: 20px; left: 50%; transform: translateX(-50%); animation-delay: 1.5s; }
+
+        @keyframes sway {
+            0%, 100% { transform: translateX(0) rotate(0deg); }
+            50% { transform: translateX(5px) rotate(2deg); }
+        }
+
+        .button {
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            position: absolute;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s, opacity 0.3s;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .button.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .button:hover {
+            transform: scale(1.05);
+        }
+
+        #yowBtn {
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #4a4a4a;
+            color: white;
+        }
+
+        #whatsBtn {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #6a6a6a;
+            color: white;
+        }
+
+        #calyBtn {
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #333;
+            font-size: 16px;
+            padding: 12px 30px;
+        }
+
+        #lookBtn {
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #333;
+        }
+
+        .asteroid {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: radial-gradient(circle, #FFD700, #FFA500);
+            border-radius: 50%;
+            top: -50px;
+            left: 50%;
+            opacity: 0;
+            box-shadow: 0 0 10px #FFD700;
+        }
+
+        .seed {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, #FFD700, #DAA520);
+            border-radius: 50%;
+            bottom: calc(15% + 10px);
+            left: 50%;
+            transform: translateX(-50%) scale(0);
+            z-index: 3;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+        }
+
+        .chat-bubble {
+            position: absolute;
+            background: white;
+            padding: 15px 20px;
+            border-radius: 20px;
+            font-size: 16px;
+            color: #333;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 10;
+            transition: opacity 0.3s;
+        }
+
+        .chat-bubble.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .chat-bubble:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid white;
+        }
+
+        .watering-can {
+            position: absolute;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            z-index: 5;
+        }
+
+        .can-body {
+            width: 60px;
+            height: 40px;
+            background: #8B4513;
+            border-radius: 5px;
+            position: relative;
+        }
+
+        .can-spout {
+            width: 30px;
+            height: 3px;
+            background: #8B4513;
+            position: absolute;
+            right: -25px;
+            top: 10px;
+        }
+
+        .water-drop {
+            position: absolute;
+            width: 3px;
+            height: 15px;
+            background: #4DB8FF;
+            border-radius: 50%;
+            opacity: 0;
+        }
+
+        .sunlight {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255, 255, 100, 0.6), transparent);
+            border-radius: 50%;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            z-index: 1;
+        }
+
+        .sunflower {
+            position: absolute;
+            bottom: calc(15% + 10px);
+            left: 50%;
+            transform: translateX(-50%) scale(0);
+            z-index: 4;
+            opacity: 0;
+        }
+
+        .sunflower-center {
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, #8B4513 40%, #654321 100%);
+            border-radius: 50%;
+            position: relative;
+            z-index: 2;
+        }
+
+        .sunflower-petals {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 140px;
+            height: 140px;
+        }
+
+        .petal {
+            position: absolute;
+            width: 35px;
+            height: 55px;
+            background: linear-gradient(to bottom, #FFD700, #FFA500);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            top: 50%;
+            left: 50%;
+            transform-origin: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .sunflower-stem {
+            width: 10px;
+            height: 100px;
+            background: linear-gradient(to right, #2d5016, #3d6b1f);
+            position: absolute;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .sunflower-leaf {
+            position: absolute;
+            width: 30px;
+            height: 20px;
+            background: linear-gradient(135deg, #228B22, #32CD32);
+            border-radius: 0 50% 50% 0;
+            bottom: 30px;
+        }
+
+        .sunflower-leaf:nth-child(1) {
+            left: -25px;
+            transform: rotate(-30deg);
+        }
+
+        .sunflower-leaf:nth-child(2) {
+            right: -25px;
+            transform: rotate(30deg) scaleX(-1);
+        }
+
+        .sun {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, #FFD700, #FFA500);
+            border-radius: 50%;
+            top: 50px;
+            right: 100px;
+            opacity: 0;
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.8);
+        }
+
+        .sun-ray {
+            position: absolute;
+            width: 4px;
+            height: 40px;
+            background: linear-gradient(to bottom, #FFD700, transparent);
+            top: 50%;
+            left: 50%;
+            transform-origin: center;
+        }
+
+        .field-sunflower {
+            position: absolute;
+            transform: scale(0);
+            opacity: 0;
+        }
+
+        @keyframes grow-sunflower {
+            0% {
+                transform: translateX(-50%) scale(0) rotate(0deg);
+                opacity: 0;
+            }
+            50% {
+                transform: translateX(-50%) scale(1.2) rotate(5deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(-50%) scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        @keyframes glow-pulse {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 40px rgba(255, 215, 0, 0.6);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(255, 215, 0, 1), 0 0 80px rgba(255, 215, 0, 0.8);
+            }
+        }
+
+        .zoom-view {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #e8e8e8;
+            top: 0;
+            left: 0;
+            transform: scale(0);
+            opacity: 0;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+    <div class="scene-container">
+        <div class="scene" id="mainScene">
+            <div class="background" id="background">
+                <div class="sun" id="sun">
+                    <div class="sun-ray" style="transform: translate(-50%, -50%) rotate(0deg);"></div>
+                    <div class="sun-ray" style="transform: translate(-50%, -50%) rotate(45deg);"></div>
+                    <div class="sun-ray" style="transform: translate(-50%, -50%) rotate(90deg);"></div>
+                    <div class="sun-ray" style="transform: translate(-50%, -50%) rotate(135deg);"></div>
+                    <div class="sun-ray" style="transform: translate(-50%, -50%) rotate(180deg);"></div>
+                    <div class="sun-ray" style="transform: translate(-50%, -50%) rotate(225deg);"></div>
+                    <div class="sun-ray" style="transform: translate(-50%, -50%) rotate(270deg);"></div>
+                    <div class="sun-ray" style="transform: translate(-50%, -50%) rotate(315deg);"></div>
+                </div>
+                
+                <div class="sunlight" id="sunlight"></div>
+                
+                <div class="ground" id="ground"></div>
+                
+                <div class="tree">
+                    <div class="leaves">
+                        <div class="leaf-cluster"></div>
+                        <div class="leaf-cluster"></div>
+                        <div class="leaf-cluster"></div>
+                        <div class="leaf-cluster"></div>
+                        <div class="leaf-cluster"></div>
+                        <div class="leaf-cluster"></div>
+                    </div>
+                    <div class="trunk"></div>
+                </div>
+
+                <div class="asteroid" id="asteroid"></div>
+                
+                <div class="seed" id="seed"></div>
+                
+                <div class="chat-bubble" id="chatBubble"></div>
+                
+                <div class="watering-can" id="wateringCan">
+                    <div class="can-body">
+                        <div class="can-spout"></div>
+                    </div>
+                </div>
+
+                <div class="sunflower" id="sunflower">
+                    <div class="sunflower-stem">
+                        <div class="sunflower-leaf"></div>
+                        <div class="sunflower-leaf"></div>
+                    </div>
+                    <div class="sunflower-petals" id="petals"></div>
+                    <div class="sunflower-center"></div>
+                </div>
+
+                <div id="fieldSunflowers"></div>
+            </div>
+        </div>
+
+        <button class="button show" id="yowBtn">yow</button>
+        <button class="button" id="whatsBtn">what's that?</button>
+        <button class="button" id="calyBtn">CALYfragilisticexpialidocious</button>
+        <button class="button" id="lookBtn">look at the sunflower again</button>
+    </div>
+
+    <script>
+        let step = 0;
+        const yowBtn = document.getElementById('yowBtn');
+        const whatsBtn = document.getElementById('whatsBtn');
+        const calyBtn = document.getElementById('calyBtn');
+        const lookBtn = document.getElementById('lookBtn');
+        const asteroid = document.getElementById('asteroid');
+        const seed = document.getElementById('seed');
+        const chatBubble = document.getElementById('chatBubble');
+        const wateringCan = document.getElementById('wateringCan');
+        const sunlight = document.getElementById('sunlight');
+        const sunflower = document.getElementById('sunflower');
+        const background = document.getElementById('background');
+        const ground = document.getElementById('ground');
+        const sun = document.getElementById('sun');
+        const mainScene = document.getElementById('mainScene');
+        const petalsContainer = document.getElementById('petals');
+        const fieldSunflowers = document.getElementById('fieldSunflowers');
+
+        // Create petals
+        for (let i = 0; i < 12; i++) {
+            const petal = document.createElement('div');
+            petal.className = 'petal';
+            const angle = (i * 30) - 90;
+            petal.style.transform = `translate(-50%, -50%) rotate(${angle}deg) translateY(-45px)`;
+            petalsContainer.appendChild(petal);
+        }
+
+        // Step 1: Click "yow" - asteroid falls
+        yowBtn.addEventListener('click', () => {
+            yowBtn.classList.remove('show');
+            
+            // Animate asteroid falling
+            asteroid.style.opacity = '1';
+            asteroid.style.transition = 'top 2s ease-in, left 2s ease-in';
+            asteroid.style.top = 'calc(85% - 20px)';
+            asteroid.style.left = '50%';
+            
+            setTimeout(() => {
+                asteroid.style.opacity = '0';
+                seed.style.transform = 'translateX(-50%) scale(1)';
+                seed.style.transition = 'transform 0.5s ease';
+                
+                setTimeout(() => {
+                    whatsBtn.classList.add('show');
+                }, 500);
+            }, 2000);
+        });
+
+        // Step 2: Click "what's that?" - zoom to seed
+        whatsBtn.addEventListener('click', () => {
+            whatsBtn.classList.remove('show');
+            
+            mainScene.style.transform = 'scale(3)';
+            mainScene.style.transformOrigin = '50% 85%';
+            mainScene.style.transition = 'transform 1.5s ease';
+            
+            setTimeout(() => {
+                chatBubble.textContent = "i'm thirsty";
+                chatBubble.classList.add('show');
+            }, 1500);
+        });
+
+        // Step 3: Click chat bubble - watering can appears
+        let chatStep = 0;
+        chatBubble.addEventListener('click', () => {
+            if (chatStep === 0) {
+                chatBubble.classList.remove('show');
+                
+                wateringCan.style.opacity = '1';
+                wateringCan.style.transition = 'all 1s ease';
+                wateringCan.style.top = '20%';
+                
+                // Create water drops
+                for (let i = 0; i < 15; i++) {
+                    setTimeout(() => {
+                        const drop = document.createElement('div');
+                        drop.className = 'water-drop';
+                        drop.style.left = '80px';
+                        drop.style.top = '15px';
+                        wateringCan.appendChild(drop);
+                        
+                        setTimeout(() => {
+                            drop.style.opacity = '1';
+                            drop.style.transition = 'all 0.8s ease';
+                            drop.style.top = '150px';
+                            drop.style.left = (80 + Math.random() * 20 - 10) + 'px';
+                        }, 50);
+                        
+                        setTimeout(() => {
+                            drop.remove();
+                        }, 900);
+                    }, i * 100);
+                }
+                
+                setTimeout(() => {
+                    wateringCan.style.opacity = '0';
+                    chatBubble.textContent = "you've overdone it, I'm drowning!";
+                    chatBubble.classList.add('show');
+                    chatStep = 1;
+                }, 2000);
+            } else if (chatStep === 1) {
+                chatBubble.textContent = "I drank too much, i need food and to be dry";
+                chatStep = 2;
+            } else if (chatStep === 2) {
+                chatBubble.classList.remove('show');
+                
+                // Sunlight appears
+                sunlight.style.opacity = '1';
+                sunlight.style.transition = 'opacity 1s ease';
+                sunlight.style.top = '10%';
+                
+                setTimeout(() => {
+                    // Seed transforms to sunflower with beautiful animation
+                    seed.style.transition = 'all 2s ease';
+                    seed.style.transform = 'translateX(-50%) scale(0)';
+                    seed.style.opacity = '0';
+                    
+                    setTimeout(() => {
+                        sunflower.style.opacity = '1';
+                        sunflower.style.animation = 'grow-sunflower 3s ease forwards';
+                        
+                        // Animate petals opening
+                        const petals = document.querySelectorAll('.petal');
+                        petals.forEach((petal, index) => {
+                            setTimeout(() => {
+                                petal.style.transition = 'all 0.5s ease';
+                                petal.style.opacity = '1';
+                            }, index * 80);
+                        });
+                        
+                        // Add glowing effect
+                        setTimeout(() => {
+                            sunflower.style.animation = 'grow-sunflower 3s ease forwards, glow-pulse 2s ease infinite';
+                        }, 3000);
+                        
+                        setTimeout(() => {
+                            calyBtn.classList.add('show');
+                        }, 4000);
+                    }, 500);
+                }, 1000);
+            }
+        });
+
+        // Step 4: Click "CALYfragilisticexpialidocious" - zoom out and show colorful world
+        calyBtn.addEventListener('click', () => {
+            calyBtn.classList.remove('show');
+            
+            // Zoom out
+            mainScene.style.transform = 'scale(1)';
+            mainScene.style.transition = 'transform 2s ease';
+            
+            setTimeout(() => {
+                // Add color to background
+                background.classList.add('colorful');
+                ground.classList.add('colorful');
+                sun.style.opacity = '1';
+                sun.style.transition = 'opacity 1.5s ease';
+                
+                // Create field of sunflowers spreading from center
+                setTimeout(() => {
+                    createFieldSunflowers();
+                }, 1000);
+                
+                setTimeout(() => {
+                    lookBtn.classList.add('show');
+                }, 4000);
+            }, 2000);
+        });
+
+        function createFieldSunflowers() {
+            const positions = [
+                { bottom: '20%', left: '30%', delay: 0, size: 0.6 },
+                { bottom: '18%', left: '70%', delay: 200, size: 0.7 },
+                { bottom: '25%', left: '20%', delay: 400, size: 0.5 },
+                { bottom: '22%', left: '80%', delay: 600, size: 0.6 },
+                { bottom: '30%', left: '15%', delay: 800, size: 0.55 },
+                { bottom: '28%', left: '85%', delay: 1000, size: 0.65 },
+                { bottom: '32%', left: '25%', delay: 1200, size: 0.5 },
+                { bottom: '30%', left: '75%', delay: 1400, size: 0.6 },
+                { bottom: '35%', left: '35%', delay: 1600, size: 0.55 },
+                { bottom: '33%', left: '65%', delay: 1800, size: 0.6 },
+            ];
+            
+            positions.forEach(pos => {
+                setTimeout(() => {
+                    const sf = createMiniSunflower(pos.size);
+                    sf.style.bottom = pos.bottom;
+                    sf.style.left = pos.left;
+                    fieldSunflowers.appendChild(sf);
+                    
+                    setTimeout(() => {
+                        sf.style.transform = `scale(${pos.size})`;
+                        sf.style.opacity = '1';
+                    }, 50);
+                }, pos.delay);
+            });
+        }
+
+        function createMiniSunflower(size) {
+            const sf = document.createElement('div');
+            sf.className = 'field-sunflower';
+            sf.style.position = 'absolute';
+            sf.style.transform = 'scale(0)';
+            sf.style.transition = 'all 0.8s ease';
+            sf.style.zIndex = '3';
+            
+            sf.innerHTML = `
+                <div style="position: relative;">
+                    <div style="width: ${40 * size}px; height: ${40 * size}px; background: radial-gradient(circle, #8B4513 40%, #654321 100%); border-radius: 50%; position: relative; z-index: 2;"></div>
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: ${100 * size}px; height: ${100 * size}px;">
+                        ${Array(10).fill(0).map((_, i) => {
+                            const angle = (i * 36) - 90;
+                            return `<div style="position: absolute; width: ${25 * size}px; height: ${40 * size}px; background: linear-gradient(to bottom, #FFD700, #FFA500); border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; top: 50%; left: 50%; transform-origin: center; transform: translate(-50%, -50%) rotate(${angle}deg) translateY(-${30 * size}px);"></div>`;
+                        }).join('')}
+                    </div>
+                    <div style="width: ${8 * size}px; height: ${60 * size}px; background: linear-gradient(to right, #2d5016, #3d6b1f); position: absolute; bottom: -${60 * size}px; left: 50%; transform: translateX(-50%);"></div>
+                </div>
+            `;
+            
+            return sf;
+        }
+
+        // Step 5: Click "look at the sunflower again" - zoom back to original sunflower
+        lookBtn.addEventListener('click', () => {
+            lookBtn.classList.remove('show');
+            
+            mainScene.style.transform = 'scale(2.5)';
+            mainScene.style.transformOrigin = '50% 75%';
+            mainScene.style.transition = 'transform 2s ease';
+            
+            setTimeout(() => {
+                lookBtn.classList.add('show');
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
