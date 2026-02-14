@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sunflower Sprouting</title>
+    <title>Sunflower Head Sprouting</title>
     <style>
         * {
             margin: 0;
@@ -16,170 +16,39 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background: linear-gradient(to bottom, #87CEEB 0%, #E0F6FF 50%, #90EE90 100%);
+            background: linear-gradient(to bottom, #87CEEB 0%, #E0F6FF 100%);
             overflow: hidden;
         }
 
-        .ground {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 30%;
-            background: linear-gradient(to bottom, #8B7355 0%, #6B5344 100%);
-        }
-
-        .sunflower-container {
+        .sunflower {
             position: relative;
-            z-index: 10;
-        }
-
-        /* Seed */
-        .seed {
-            width: 20px;
-            height: 25px;
-            background: linear-gradient(135deg, #8B4513, #A0522D);
-            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-            margin: 0 auto;
-            animation: plant 1s ease forwards;
-            transform-origin: bottom center;
-        }
-
-        @keyframes plant {
-            0% {
-                transform: translateY(-100px) scale(0.5);
-                opacity: 0;
-            }
-            100% {
-                transform: translateY(0) scale(1);
-                opacity: 1;
-            }
-        }
-
-        /* Stem grows from seed */
-        .stem {
-            width: 12px;
-            height: 0;
-            background: linear-gradient(to right, #2d5016, #4a7c2f);
-            margin: 0 auto;
-            border-radius: 6px;
-            animation: grow-stem 2s ease 1s forwards;
-            transform-origin: top center;
-        }
-
-        @keyframes grow-stem {
-            0% { height: 0; }
-            100% { height: 200px; }
-        }
-
-        /* Leaves */
-        .leaves {
-            position: relative;
-        }
-
-        .leaf {
-            position: absolute;
-            width: 40px;
-            height: 28px;
-            background: linear-gradient(135deg, #3d8b1f, #52a830);
-            border-radius: 0 50% 50% 0;
-            opacity: 0;
-        }
-
-        .leaf-left {
-            left: -45px;
-            top: 80px;
-            transform: rotate(-45deg);
-            animation: grow-leaf 0.8s ease 2s forwards;
-        }
-
-        .leaf-right {
-            right: -45px;
-            top: 80px;
-            transform: rotate(45deg) scaleX(-1);
-            animation: grow-leaf 0.8s ease 2.4s forwards;
-        }
-
-        @keyframes grow-leaf {
-            0% {
-                transform: scale(0) rotate(-45deg);
-                opacity: 0;
-            }
-            100% {
-                transform: scale(1) rotate(-45deg);
-                opacity: 1;
-            }
-        }
-
-        .leaf-right {
-            animation: grow-leaf-right 0.8s ease 2.4s forwards;
-        }
-
-        @keyframes grow-leaf-right {
-            0% {
-                transform: scale(0) rotate(45deg) scaleX(-1);
-                opacity: 0;
-            }
-            100% {
-                transform: scale(1) rotate(45deg) scaleX(-1);
-                opacity: 1;
-            }
-        }
-
-        /* Flower head */
-        .flower-head {
-            position: absolute;
-            top: -120px;
-            left: 50%;
-            transform: translateX(-50%) scale(0);
-            animation: bloom 2s ease 3s forwards;
+            animation: bloom 3s ease forwards;
         }
 
         @keyframes bloom {
             0% {
-                transform: translateX(-50%) scale(0) rotate(0deg);
+                transform: scale(0) rotate(0deg);
                 opacity: 0;
             }
-            60% {
-                transform: translateX(-50%) scale(1.1) rotate(180deg);
+            50% {
+                transform: scale(1.2) rotate(180deg);
                 opacity: 1;
             }
             100% {
-                transform: translateX(-50%) scale(1) rotate(360deg);
+                transform: scale(1) rotate(360deg);
                 opacity: 1;
             }
-        }
-
-        /* Petals */
-        .petals {
-            position: absolute;
-            width: 200px;
-            height: 200px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .petal {
-            position: absolute;
-            width: 40px;
-            height: 60px;
-            background: linear-gradient(to bottom, #FFD700 0%, #FDB750 50%, #FFA500 100%);
-            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-            top: 50%;
-            left: 50%;
-            transform-origin: center center;
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
         }
 
         /* Center */
         .center {
-            width: 80px;
-            height: 80px;
+            width: 120px;
+            height: 120px;
             background: radial-gradient(circle at 35% 35%, #654321 0%, #3d2817 100%);
             border-radius: 50%;
             position: relative;
             z-index: 2;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
         }
 
         .center::before {
@@ -188,87 +57,66 @@
             width: 100%;
             height: 100%;
             background-image: 
-                radial-gradient(circle, #543210 2px, transparent 2px);
-            background-size: 12px 12px;
-            background-position: 3px 3px;
+                radial-gradient(circle, #543210 3px, transparent 3px);
+            background-size: 15px 15px;
+            background-position: 4px 4px;
             border-radius: 50%;
         }
 
-        /* Sun */
-        .sun {
+        /* Petals container */
+        .petals {
             position: absolute;
-            top: 50px;
-            right: 80px;
-            width: 120px;
-            height: 120px;
-            background: radial-gradient(circle, #FFD700, #FFA500);
-            border-radius: 50%;
-            box-shadow: 0 0 50px rgba(255, 215, 0, 0.6);
-            animation: sun-rise 2s ease forwards;
-        }
-
-        @keyframes sun-rise {
-            0% {
-                transform: translateY(100px);
-                opacity: 0;
-            }
-            100% {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        .sun-ray {
-            position: absolute;
-            width: 8px;
-            height: 40px;
-            background: linear-gradient(to bottom, #FFA500, transparent);
+            width: 300px;
+            height: 300px;
             top: 50%;
             left: 50%;
-            transform-origin: center;
+            transform: translate(-50%, -50%);
+        }
+
+        .petal {
+            position: absolute;
+            width: 50px;
+            height: 75px;
+            background: linear-gradient(to bottom, #FFD700 0%, #FDB750 50%, #FFA500 100%);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            top: 50%;
+            left: 50%;
+            transform-origin: center center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            animation: petal-grow 0.5s ease forwards;
+        }
+
+        @keyframes petal-grow {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
         }
     </style>
 </head>
 <body>
-    <div class="sun">
-        <div class="sun-ray" style="transform: translate(-50%, -50%) rotate(0deg) translateY(-60px);"></div>
-        <div class="sun-ray" style="transform: translate(-50%, -50%) rotate(45deg) translateY(-60px);"></div>
-        <div class="sun-ray" style="transform: translate(-50%, -50%) rotate(90deg) translateY(-60px);"></div>
-        <div class="sun-ray" style="transform: translate(-50%, -50%) rotate(135deg) translateY(-60px);"></div>
-        <div class="sun-ray" style="transform: translate(-50%, -50%) rotate(180deg) translateY(-60px);"></div>
-        <div class="sun-ray" style="transform: translate(-50%, -50%) rotate(225deg) translateY(-60px);"></div>
-        <div class="sun-ray" style="transform: translate(-50%, -50%) rotate(270deg) translateY(-60px);"></div>
-        <div class="sun-ray" style="transform: translate(-50%, -50%) rotate(315deg) translateY(-60px);"></div>
-    </div>
-
-    <div class="ground"></div>
-
-    <div class="sunflower-container">
-        <div class="seed"></div>
-        <div class="stem">
-            <div class="leaves">
-                <div class="leaf leaf-left"></div>
-                <div class="leaf leaf-right"></div>
-            </div>
-            <div class="flower-head">
-                <div class="petals" id="petals"></div>
-                <div class="center"></div>
-            </div>
-        </div>
+    <div class="sunflower">
+        <div class="petals" id="petals"></div>
+        <div class="center"></div>
     </div>
 
     <script>
-        // Create 12 petals
         const petalsContainer = document.getElementById('petals');
-        for (let i = 0; i < 12; i++) {
+        
+        // Create 13 petals around the center
+        for (let i = 0; i < 13; i++) {
             const petal = document.createElement('div');
             petal.className = 'petal';
-            const angle = (i * 30) - 90;
-            petal.style.transform = `translate(-50%, -50%) rotate(${angle}deg) translateY(-70px)`;
+            const angle = (i * (360 / 13)) - 90;
+            petal.style.transform = `translate(-50%, -50%) rotate(${angle}deg) translateY(-110px)`;
+            petal.style.animationDelay = `${1 + (i * 0.08)}s`;
             petalsContainer.appendChild(petal);
         }
     </script>
 </body>
 </html>
-
-
